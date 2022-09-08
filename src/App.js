@@ -6,6 +6,7 @@ import "./App.css";
 function App() {
   const initialURL = "https://pokeapi.co/api/v2/pokemon";
   const [loading, setLoading] = useState("true");
+  const [pokemonData, setPokemonData] = useState([]);
 
   useEffect(() => {
     const fetchAllPokemonData = async () => {
@@ -16,14 +17,17 @@ function App() {
     fetchAllPokemonData();
   }, []);
 
-  const loadPokemon = (data) => {
-    const _pokemoData = Promise.all(
+  const loadPokemon = async (data) => {
+    const _pokemoData = await Promise.all(
       data.map((pokemon) => {
         const pokemonRecord = getPokemon(pokemon.url);
         return pokemonRecord;
       })
     );
+    setPokemonData(_pokemoData);
   };
+
+  console.log(pokemonData);
 
   return (
     <div className="App">
